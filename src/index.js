@@ -19,8 +19,8 @@ controls.keys = {
 controls.domElement=container;
 controls.mouseButtons = {
 	LEFT:THREE.MOUSE.MIDDLE,
-	MIDDLE: THREE.MOUSE.MIDDLE,
-	RIGHT: THREE.MOUSE.RIGHT
+	MIDDLE: null,
+	RIGHT: null
 }
 
 const scene = new THREE.Scene();
