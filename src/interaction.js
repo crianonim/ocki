@@ -11,17 +11,18 @@ function init(gameObj, SIZE_DEF) {
     document.addEventListener('click',onClick,false);
 
 }
-function onClick(){
+function onClick(event){
     console.log("Click")
     if (game.selectedMesh){
-        // console.log("SELECTED is",game.selectedMesh );
         map.removeMesh(game.selectedMesh);
-        // game.scene.remove(game.selectedMesh )
+        //so it adjusts
+        onMouseMove(event)
     }
 }
 function onMouseMove(event) {
     event.preventDefault();
     game.selectedMesh=null;
+    game.toolMesh.visible=false;
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
 
     raycaster.setFromCamera(mouse, game.camera);
@@ -35,6 +36,7 @@ function onMouseMove(event) {
         let translation = intersect.face.normal.clone().multiplyScalar(SIZE);
         // console.log("trans", translation);
         game.toolMesh.position.copy(intersect.object.position).add(translation);
+        game.toolMesh.visible=true;
         game.selectedMesh=intersect.object;
     }
 
