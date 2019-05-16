@@ -8,7 +8,7 @@ function init(gameObj, SIZE_DEF) {
     game=gameObj;
     SIZE=SIZE_DEF;
     document.addEventListener('mousemove', onMouseMove, false);
-    document.addEventListener('click',remove,false);
+    document.addEventListener('click',map.createMesh,false);
     document.addEventListener('contextmenu',remove,false);
 
 
@@ -44,6 +44,7 @@ function onMouseMove(event) {
         // console.log("trans", translation);
         game.toolMesh.position.copy(intersect.object.position).add(translation);
         game.toolMesh.visible=true;
+        game.selectedFace=intersect.face;
         map.selectMesh(intersect.object)
         game.selectedMesh=intersect.object;
         // game.selectedMesh.material.wireframe=true;

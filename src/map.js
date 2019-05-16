@@ -64,9 +64,26 @@ function deselectMesh(mesh){
     mesh.material = materials[type];
     game.selectedMesh=null
 }
+function createMesh(){
+    if (!game.selectedMesh) return    
+    let type=2
+    var newMesh = new THREE.Mesh(basicCubeGeometry, materials[type]);
+    console.log("OBJ", game.selectedMesh, game.selectedFace.normal);
+    let translation = game.selectedFace.normal.clone().multiplyScalar(50);
+    console.log("trans", translation);
+    newMesh.position.copy(game.selectedMesh.position).add(translation);
+    let x,y,z;
+
+    game.objects.push(newMesh)
+    let newMapObject={mesh:newMesh,type,x,y,z}
+    console.log(newMesh.position,newMapObject)
+    game.map.push(newMapObject)
+    game.scene.add(newMesh);
+}
 export default {
     init,
     removeMesh,
     selectMesh,
     deselectMesh,
+    createMesh,
 }
