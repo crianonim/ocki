@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import map from './map.js';
 import interaction from './interaction.js';
+import tick from './tick.js'
 
 
 
@@ -88,7 +89,7 @@ function render(ts) {
     window.requestAnimationFrame(render);
     if (accumulatedDelta>TICK_SIZE){
         accumulatedDelta-=TICK_SIZE;
-        tick();
+        tick.tick(game);
     }
     if(game.selectedMesh){
         if (game.selectedMesh.material.opacity<.2){
@@ -108,6 +109,3 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function tick(){
-    console.log("TICK")
-}

@@ -7,6 +7,11 @@ const source = {
     "2,2,2": 2,
     "-3,1,2": 0,
     "-4,2,2": 3,
+    "2,2,5": 4,
+    "2,3,6": 4,
+    "2,3,2": 4,
+
+
 
 }
 const map = [
@@ -15,16 +20,16 @@ const map = [
 let game, SIZE
 let basicCubeGeometry;
 const types = [
-    { color: 0x857c55}, // dirt
-    { color: 0x6a6344}, // dirt watered
-    { color: 0x34b334}, // green
-    { color: 0x24c324}, // green saturated
-    { color: 0x00ffff}, // aqua
+    { color: 0x857c55 }, // dirt
+    { color: 0x6a6344 }, // dirt watered
+    { color: 0x34b334 }, // green
+    { color: 0x24c324 }, // green saturated
+    { color: 0x00ffff, gravity: true }, // aqua
 
 
 
 
-    {color:0x00bbbb },
+    { color: 0x00bbbb },
     { color: 0xbb0000 },
     { color: 0x0000bb },
     { color: 0x00bb00 }
@@ -52,7 +57,7 @@ function init(gameOBJ, SIZE_DEF) {
         mesh.position.z = z * SIZE + SIZE / 2;
         // console.log("Adding",mesh,"to",game.scene)
         game.scene.add(mesh);
-        game.map.push({ x, y, z, mesh, type })
+        game.map.push({ x, y, z, mesh, type, typeDef: types[type] })
         game.objects.push(mesh);
     })
     console.log(game)
@@ -92,12 +97,28 @@ function createMesh() {
         }).reduce((prev, cur) => { prev[cur[0]] = cur[1]; return prev }, {})
 
     game.objects.push(newMesh)
-    let newMapObject = { mesh: newMesh, type, x, y, z }
+    let newMapObject = { mesh: newMesh, type, x, y, z, typeDef: types[type] }
     // console.log(newMesh.position, newMapObject)
     game.map.push(newMapObject)
     game.scene.add(newMesh);
     deselectMesh()
     game.toolMesh.visible = false;
+}
+function getAdjacentObj(obj) {
+    let adj = {};
+    adj.down=game.map.find(el=>el.x==obj.x && el.z==obj.z && el.y==obj.y-1)
+
+    return adj;
+}
+function moveObject(obj,x,y,z){
+    // console.log("MOVE",obj,x,y,z)
+    obj.mesh.position.set(x*SIZE+SIZE/2,y*SIZE+SIZE/2,z*SIZE+SIZE/2);
+    obj.x=x;
+    obj.y=y;
+    obj.z=z;
+    if (obj.y<-10){
+        removeMesh(obj.mesh);
+    }
 }
 export default {
     init,
@@ -105,4 +126,6 @@ export default {
     selectMesh,
     deselectMesh,
     createMesh,
+    getAdjacentObj,
+    moveObject,
 }
