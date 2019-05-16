@@ -3,10 +3,15 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import map from './map.js';
 import interaction from './interaction.js';
 
+
+
+
+
 const game={
     toolPosition:[0,0,0],
     toolMesh:null,
     scene:null,
+    camera:null,
 }
 const SIZE = 50;
 
@@ -15,6 +20,7 @@ document.body.appendChild(container);
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
 camera.position.set(500, 800, 1300);
 camera.lookAt(new THREE.Vector3());
+game.camera=camera;
 
 const controls = new OrbitControls(camera);
 controls.keys = {

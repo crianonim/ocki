@@ -20,7 +20,8 @@ const materials = [
 
 ]
 function init(game, SIZE) {
-    game.map=[]
+    game.map=[];
+    game.objects=[];
     basicCubeGeometry = new THREE.BoxGeometry(SIZE, SIZE, SIZE);
     Object.entries(source).forEach(el => {
         console.log(el)
@@ -33,6 +34,7 @@ function init(game, SIZE) {
         // console.log("Adding",mesh,"to",game.scene)
         game.scene.add(mesh);
         game.map.push({x,y,z,mesh,type})
+        game.objects.push(mesh);
     })
     console.log(game)
 }
