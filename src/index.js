@@ -1,9 +1,11 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import map from './map.js';
 
 const game={
     toolPosition:[0,0,0],
     toolMesh:null,
+    scene:null,
 }
 const SIZE = 50;
 
@@ -28,6 +30,7 @@ controls.mouseButtons = {
 }
 
 const scene = new THREE.Scene();
+game.scene=scene;
 scene.background = new THREE.Color(0xf0f0f0);
 
 // tool
@@ -56,6 +59,9 @@ container.appendChild(renderer.domElement);
 
 
 window.addEventListener('resize', onWindowResize, false);
+
+
+map.init(game,SIZE);
 render();
 
 function render() {
