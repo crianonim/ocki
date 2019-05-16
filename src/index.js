@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import map from './map.js';
+import interaction from './interaction.js';
 
 const game={
     toolPosition:[0,0,0],
@@ -62,6 +63,7 @@ window.addEventListener('resize', onWindowResize, false);
 
 
 map.init(game,SIZE);
+interaction.init(game,SIZE);
 render();
 
 function render() {
