@@ -1,6 +1,10 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+const game={
+    toolPosition:[0,0,0],
+    toolMesh:null,
+}
 const SIZE = 50;
 
 const container = document.createElement('div');
@@ -26,12 +30,14 @@ controls.mouseButtons = {
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xf0f0f0);
 
-// roll-over helpers
+// tool
 
-const rollOverGeo = new THREE.BoxGeometry(SIZE, SIZE, SIZE);
-const rollOverMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
-const rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
-scene.add(rollOverMesh);
+const toolGeo = new THREE.BoxGeometry(SIZE, SIZE, SIZE);
+const toolMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
+game.toolMesh = new THREE.Mesh(toolGeo, toolMaterial);
+game.toolMesh.position.addScalar(SIZE/2);
+scene.add(game.toolMesh);
+
 
 const gridHelper = new THREE.GridHelper(1000, 20);
 scene.add(gridHelper);
