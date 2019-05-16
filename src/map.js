@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 const source = {
+    "0,0,0": 3,
     "1,2,0": 1,
     "1,2,1": 2,
     "1,2,2": 2,
@@ -20,11 +21,11 @@ const types = [
     { color: 0x00bb00 }
 ]
 const materials = types.map(type => {
-    return new THREE.MeshLambertMaterial({ color: type.color,name:"NOT" })
+    return new THREE.MeshLambertMaterial({ color: type.color, name: "NOT" })
 });
 
 const selectedMaterials = types.map(type => {
-    return new THREE.MeshLambertMaterial({ color: type.color, opacity:0.5,transparent:true,/*wireframe: true,name:"SEL" */})
+    return new THREE.MeshLambertMaterial({ color: type.color, opacity: 0.5, transparent: true,/*wireframe: true,name:"SEL" */ })
 });
 function init(gameOBJ, SIZE_DEF) {
     game = gameOBJ;
@@ -56,32 +57,38 @@ function selectMesh(mesh) {
     let { type } = game.map.find(el => el.mesh == mesh);
     // console.log(type,selectedMaterials[type]);
     mesh.material = selectedMaterials[type];
-    game.selectedMesh=mesh;
+    game.selectedMesh = mesh;
 }
-function deselectMesh(){
+function deselectMesh() {
     if (!game.selectedMesh) return
     let { type } = game.map.find(el => el.mesh == game.selectedMesh);
     // console.log(type,selectedMaterials[type]);
     game.selectedMesh.material = materials[type];
-    game.selectedMesh=null
+    game.selectedMesh = null
 }
-function createMesh(){
-    if (!game.selectedMesh) return    
-    let type=2
+function createMesh() {
+    if (!game.selectedMesh) return
+    let parent = game.map.find(el => el.mesh == game.selectedMesh);
+    let type = parent.type;
     var newMesh = new THREE.Mesh(basicCubeGeometry, materials[type]);
-    console.log("OBJ", game.selectedMesh, game.selectedFace.normal);
+    // console.log("OBJ", game.selectedMesh, game.selectedFace.normal);
     let translation = game.selectedFace.normal.clone().multiplyScalar(50);
-    console.log("trans", translation);
+    // console.log("trans", translation);
     newMesh.position.copy(game.selectedMesh.position).add(translation);
-    let x,y,z;
+    let { x, y, z } = Object.entries(newMesh.position)
+        .map(entry => {
+            let [key, value] = entry;
+            value -= SIZE / 2;
+            return [key, value / SIZE]
+        }).reduce((prev, cur) => { prev[cur[0]] = cur[1]; return prev }, {})
 
     game.objects.push(newMesh)
-    let newMapObject={mesh:newMesh,type,x,y,z}
-    console.log(newMesh.position,newMapObject)
+    let newMapObject = { mesh: newMesh, type, x, y, z }
+    // console.log(newMesh.position, newMapObject)
     game.map.push(newMapObject)
     game.scene.add(newMesh);
     deselectMesh()
-    game.toolMesh.visible=false;
+    game.toolMesh.visible = false;
 }
 export default {
     init,
