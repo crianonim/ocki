@@ -12,7 +12,7 @@ function tick(game){
             // console.log(el,"is under gravity",adj);
         }
     })
-    console.log("TICK",turn)
+    console.log("TICK",turn,map.serializeMap())
 }
 export default {
     tick

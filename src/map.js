@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GammaEncoding } from 'three';
 const source = {
     "0,0,0": 3,
     "1,2,0": 1,
@@ -20,11 +21,12 @@ const map = [
 let game, SIZE
 let basicCubeGeometry;
 const types = [
-    { color: 0x857c55 }, // dirt
-    { color: 0x6a6344 }, // dirt watered
-    { color: 0x34b334 }, // green
-    { color: 0x24c324 }, // green saturated
-    { color: 0x00ffff, gravity: true }, // aqua
+    { color: 0x857c55, name:"dirt"}, // dirt
+    { color: 0x6a6344, name:"wet_dirt" }, // dirt watered
+    { color: 0x34b334, name:"plant" }, // green
+    { color: 0x24c324,name:"plant_intense" }, // green saturated
+    { color: 0x00ffff,name:"water", gravity: true }, // aqua
+    { color: 0xb8b8b8,name:"stone" },
 
 
 
@@ -120,6 +122,11 @@ function moveObject(obj,x,y,z){
         removeMesh(obj.mesh);
     }
 }
+function serializeMap(){
+    let obj={}
+    game.map.forEach(el=>obj[[el.x,el.y,el.z].join(',')]=el.type)
+    return JSON.stringify(obj,null,1);
+}
 export default {
     init,
     removeMesh,
@@ -128,4 +135,5 @@ export default {
     createMesh,
     getAdjacentObj,
     moveObject,
+    serializeMap,
 }
