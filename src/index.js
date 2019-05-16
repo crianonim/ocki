@@ -74,14 +74,22 @@ interaction.init(game,SIZE);
 
 let lastUpdate;
 let dir=-1;
-render();
+let accumulatedDelta=0;
+const TICK_SIZE=1000;
+render(0);
 
 
 function render(ts) {
     if (!lastUpdate) lastUpdate=ts;
     let delta=ts-lastUpdate;
     lastUpdate=ts;
+    accumulatedDelta+=delta;
+    // console.log("RENDER",delta,accumulatedDelta)
     window.requestAnimationFrame(render);
+    if (accumulatedDelta>TICK_SIZE){
+        accumulatedDelta-=TICK_SIZE;
+        tick();
+    }
     if(game.selectedMesh){
         if (game.selectedMesh.material.opacity<.2){
             dir=1;
@@ -98,4 +106,8 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function tick(){
+    console.log("TICK")
 }

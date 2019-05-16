@@ -15,7 +15,16 @@ const map = [
 let game, SIZE
 let basicCubeGeometry;
 const types = [
-    { color: 0x00bbbb },
+    { color: 0x857c55}, // dirt
+    { color: 0x6a6344}, // dirt watered
+    { color: 0x34b334}, // green
+    { color: 0x24c324}, // green saturated
+    { color: 0x00ffff}, // aqua
+
+
+
+
+    {color:0x00bbbb },
     { color: 0xbb0000 },
     { color: 0x0000bb },
     { color: 0x00bb00 }
