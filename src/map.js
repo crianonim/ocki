@@ -58,10 +58,11 @@ function selectMesh(mesh) {
     mesh.material = selectedMaterials[type];
     game.selectedMesh=mesh;
 }
-function deselectMesh(mesh){
-    let { type } = game.map.find(el => el.mesh == mesh);
+function deselectMesh(){
+    if (!game.selectedMesh) return
+    let { type } = game.map.find(el => el.mesh == game.selectedMesh);
     // console.log(type,selectedMaterials[type]);
-    mesh.material = materials[type];
+    game.selectedMesh.material = materials[type];
     game.selectedMesh=null
 }
 function createMesh(){
@@ -79,6 +80,8 @@ function createMesh(){
     console.log(newMesh.position,newMapObject)
     game.map.push(newMapObject)
     game.scene.add(newMesh);
+    deselectMesh()
+    game.toolMesh.visible=false;
 }
 export default {
     init,

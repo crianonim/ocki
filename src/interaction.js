@@ -14,10 +14,10 @@ function init(gameObj, SIZE_DEF) {
 
 }
 function remove(event){
-    console.log("Click")
+    console.log("REMOVE")
     if (game.selectedMesh){
         let mesh=game.selectedMesh;
-        map.deselectMesh(game.selectedMesh)
+        map.deselectMesh()
         map.removeMesh(mesh);
         //so it adjusts
         onMouseMove(event)
