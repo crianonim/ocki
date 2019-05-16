@@ -7,4 +7,8 @@ module.exports = {
     filename: 'bundle.js'
   },
   watch:true,
+  devServer:{
+    publicPath:"/dist/",
+    watchContentBase: true,
+  }
 };
