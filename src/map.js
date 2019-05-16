@@ -24,7 +24,7 @@ const materials = types.map(type => {
 });
 
 const selectedMaterials = types.map(type => {
-    return new THREE.MeshLambertMaterial({ color: type.color, wireframe: true,name:"SEL" })
+    return new THREE.MeshLambertMaterial({ color: type.color, opacity:0.5,transparent:true,/*wireframe: true,name:"SEL" */})
 });
 function init(gameOBJ, SIZE_DEF) {
     game = gameOBJ;

@@ -71,11 +71,28 @@ window.addEventListener('resize', onWindowResize, false);
 
 map.init(game,SIZE);
 interaction.init(game,SIZE);
+
+let lastUpdate;
+let dir=-1;
 render();
 
-function render() {
+
+function render(ts) {
+    if (!lastUpdate) lastUpdate=ts;
+    let delta=ts-lastUpdate;
+    lastUpdate=ts;
     window.requestAnimationFrame(render);
+    if(game.selectedMesh){
+        if (game.selectedMesh.material.opacity<.2){
+            dir=1;
+        } else if (game.selectedMesh.material.opacity>0.8){
+            dir=-1;
+        }
+        game.selectedMesh.material.opacity+=((delta/1000)*dir);
+        // console.log(dir,game.selectedMesh.material.opacity,((delta/1000)*dir))
+    }
     renderer.render(scene, camera);
+    // console.log(delta)
 }
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
