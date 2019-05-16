@@ -45,7 +45,7 @@ scene.background = new THREE.Color(0xf0f0f0);
 const toolGeo = new THREE.BoxGeometry(SIZE, SIZE, SIZE);
 const toolMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, opacity: 0.5, transparent: true });
 game.toolMesh = new THREE.Mesh(toolGeo, toolMaterial);
-game.toolMesh.position.addScalar(SIZE/2);
+// game.toolMesh.position.addScalar(SIZE/2);
 game.toolMesh.visible=false;
 scene.add(game.toolMesh);
 

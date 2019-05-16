@@ -8,20 +8,27 @@ function init(gameObj, SIZE_DEF) {
     game=gameObj;
     SIZE=SIZE_DEF;
     document.addEventListener('mousemove', onMouseMove, false);
-    document.addEventListener('click',onClick,false);
+    document.addEventListener('click',remove,false);
+    document.addEventListener('contextmenu',remove,false);
+
 
 }
-function onClick(event){
+function remove(event){
     console.log("Click")
     if (game.selectedMesh){
-        map.removeMesh(game.selectedMesh);
+        let mesh=game.selectedMesh;
+        map.deselectMesh(game.selectedMesh)
+        map.removeMesh(mesh);
         //so it adjusts
         onMouseMove(event)
     }
 }
 function onMouseMove(event) {
     event.preventDefault();
-    game.selectedMesh=null;
+    if (game.selectedMesh){
+        map.deselectMesh(game.selectedMesh)
+        // game.selectedMesh.material.wireframe=false;
+    }
     game.toolMesh.visible=false;
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, - (event.clientY / window.innerHeight) * 2 + 1);
 
@@ -37,7 +44,9 @@ function onMouseMove(event) {
         // console.log("trans", translation);
         game.toolMesh.position.copy(intersect.object.position).add(translation);
         game.toolMesh.visible=true;
+        map.selectMesh(intersect.object)
         game.selectedMesh=intersect.object;
+        // game.selectedMesh.material.wireframe=true;
     }
 
 }
