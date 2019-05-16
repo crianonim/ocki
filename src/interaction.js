@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import map from './map.js';
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
@@ -13,8 +14,9 @@ function init(gameObj, SIZE_DEF) {
 function onClick(){
     console.log("Click")
     if (game.selectedMesh){
-        console.log("SELECTED is",game.selectedMesh );
-        game.scene.remove(game.selectedMesh )
+        // console.log("SELECTED is",game.selectedMesh );
+        map.removeMesh(game.selectedMesh);
+        // game.scene.remove(game.selectedMesh )
     }
 }
 function onMouseMove(event) {
@@ -29,9 +31,9 @@ function onMouseMove(event) {
     if (intersects.length > 0) {
 
         let intersect = intersects[0];
-        console.log("OBJ", intersect.object, intersect.face.normal);
+        // console.log("OBJ", intersect.object, intersect.face.normal);
         let translation = intersect.face.normal.clone().multiplyScalar(SIZE);
-        console.log("trans", translation);
+        // console.log("trans", translation);
         game.toolMesh.position.copy(intersect.object.position).add(translation);
         game.selectedMesh=intersect.object;
     }

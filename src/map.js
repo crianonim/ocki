@@ -11,6 +11,7 @@ const source = {
 const map=[
 
 ];
+let game,SIZE
 let basicCubeGeometry;
 const materials = [
     new THREE.MeshLambertMaterial({ color: 0x00bbbb }),
@@ -19,7 +20,9 @@ const materials = [
     new THREE.MeshLambertMaterial({ color: 0x00bb00 }),
 
 ]
-function init(game, SIZE) {
+function init(gameOBJ, SIZE_DEF) {
+    game=gameOBJ;
+    SIZE=SIZE_DEF;
     game.map=[];
     game.objects=[];
     basicCubeGeometry = new THREE.BoxGeometry(SIZE, SIZE, SIZE);
@@ -38,6 +41,12 @@ function init(game, SIZE) {
     })
     console.log(game)
 }
+function removeMesh(mesh){
+    game.objects=game.objects.filter(el=>el!=mesh);
+    game.scene.remove(mesh);
+    game.map=game.map.filter(el=>el.mesh!==mesh);
+}
 export default {
     init,
+    removeMesh
 }
