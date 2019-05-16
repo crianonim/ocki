@@ -16,11 +16,11 @@ controls.keys = {
     UP: 87,
     DOWN: 83,
 }
-controls.domElement=container;
+controls.domElement = container;
 controls.mouseButtons = {
-	LEFT:THREE.MOUSE.MIDDLE,
-	MIDDLE: null,
-	RIGHT: null
+    LEFT: THREE.MOUSE.MIDDLE,
+    MIDDLE: null,
+    RIGHT: null
 }
 
 const scene = new THREE.Scene();
@@ -49,8 +49,15 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 container.appendChild(renderer.domElement);
 
 
+window.addEventListener('resize', onWindowResize, false);
 render();
+
 function render() {
     window.requestAnimationFrame(render);
     renderer.render(scene, camera);
+}
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
