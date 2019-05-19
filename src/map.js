@@ -52,9 +52,11 @@ const types = [
     { color: 0x24c324, name: "plant intense" }, // green saturated
     { color: 0x00ffff, name: "water", gravity: true }, // aqua
     { color: 0xb8b8b8, name: "stone" },
+    { color: 0x55432e, name: "wood" },
+
 ]
 const materials = types.map(type => {
-    return new THREE.MeshLambertMaterial({ color: type.color, name: "NOT" })
+    return new THREE.MeshLambertMaterial({ color: type.color, name: type.name })
 });
 
 const selectedMaterials = types.map(type => {
@@ -93,6 +95,7 @@ function removeObject(object){
 }
 function changeObjectType(object,type){
     object.type=type;
+    object.typeDef=types[type]
     object.mesh.material=materials[type];
     return object;
 }

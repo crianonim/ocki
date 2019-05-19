@@ -12,22 +12,48 @@ function tick(game) {
             }
         }
 
-        if (turn % 2 == 0 && el.typeDef.name == "plant" && !plantsCheckedForGrowth.includes(el)) {
+        if (turn % 3 == 0 && (el.typeDef.name == "plant" || el.typeDef.name=="wood")&& !plantsCheckedForGrowth.includes(el)) {
             let below = map.getObjectAt(el.x, el.y - 1, el.z)
             if (below && below.typeDef.name == "dirt" && checkIfSpaceToGrow(el.x,el.y,el.z) ) {
                 // console.log("Found dirt under",below)
-                let upDelta = 0;
+                let plantSize = 0;
+                const treeStartsAt = 3;
+                const maxSize=7;
+                let plantObjects=[el];
                 while (true) {
-                    upDelta++;
-                    if (upDelta > 3) break;
-                    let above = map.getObjectAt(el.x, el.y + upDelta, el.z);
+                    plantSize++;
+                    // console.log(plantSize)
+                    if (plantSize > maxSize) break;
+                    if (plantSize == maxSize){
+                        console.log("MAX SIZE")
+                        if (!checkIfSpaceToGrow(el.x,el.y+plantSize-1,el.z)) break;
+                        let newPlantObject=map.createObject(2, el.x+1, el.y + plantSize-1, el.z);
+                        plantsCheckedForGrowth.push(newPlantObject);
+                        newPlantObject=map.createObject(2, el.x, el.y + plantSize-1, el.z+1);
+                        plantsCheckedForGrowth.push(newPlantObject);
+                        newPlantObject=map.createObject(2, el.x-1, el.y + plantSize-1, el.z);
+                        plantsCheckedForGrowth.push(newPlantObject);
+                        newPlantObject=map.createObject(2, el.x, el.y + plantSize-1, el.z-1);
+                        plantsCheckedForGrowth.push(newPlantObject);
 
-                    if (!above && checkIfSpaceToGrow(el.x,el.y+upDelta,el.z)) {
-                        plantsCheckedForGrowth.push(map.createObject(2, el.x, el.y + upDelta, el.z))
+                    }
+                    let above = map.getObjectAt(el.x, el.y + plantSize, el.z);
+                    if (!above && checkIfSpaceToGrow(el.x,el.y+plantSize,el.z)) {
+                        let newPlantObject=map.createObject(2, el.x, el.y + plantSize, el.z)
+                        plantsCheckedForGrowth.push(newPlantObject);
+                        plantObjects.push(newPlantObject)
+                        if (plantSize>treeStartsAt-1){
+                            let changeToWoodID=plantSize-treeStartsAt;
+                            let changed
+                            changed=map.changeObjectType(plantObjects[changeToWoodID],6)
+                            console.log(changeToWoodID,plantSize,treeStartsAt,changed,plantObjects);
+                        }
                         break;
                     }
-                    if (above && checkIfSpaceToGrow(el.x,el.y+upDelta,el.z) && above.typeDef.name == "plant") {
+                    
+                    if (above && checkIfSpaceToGrow(el.x,el.y+plantSize,el.z) && (above.typeDef.name == "plant" || above.typeDef.name=="wood") ) {
                         plantsCheckedForGrowth.push(above);
+                        plantObjects.push(above)
                     }
                     else {
                         break;
