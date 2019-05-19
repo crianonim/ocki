@@ -91,6 +91,12 @@ function removeObject(object){
     game.scene.remove(object.mesh);
     game.entities=game.entities.filter(el=>el!=object);
 }
+function changeObjectType(object,type){
+    object.type=type;
+    object.mesh.material=materials[type];
+    return object;
+}
+
 function findObjectByMesh(mesh) {
     return game.entities.find(el => el.mesh == mesh)
 }
@@ -144,6 +150,7 @@ export default {
     createObject,
     removeObject,
     moveObject,
+    changeObjectType,
     
     findObjectByMesh,
     getObjectAt,
