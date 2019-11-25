@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { FlyControls as Controls } from 'three/examples/jsm/controls/FlyControls';
 import map from './map.js';
 import interaction from './interaction.js';
 import tick from './tick.js'
@@ -23,19 +23,7 @@ camera.position.set(500, 800, 1300);
 camera.lookAt(new THREE.Vector3());
 game.camera=camera;
 
-const controls = new OrbitControls(camera);
-controls.keys = {
-    RIGHT: 68,
-    LEFT: 65,
-    UP: 87,
-    BOTTOM: 83,
-}
-controls.domElement = container;
-controls.mouseButtons = {
-    LEFT: THREE.MOUSE.MIDDLE,
-    MIDDLE: null,
-    RIGHT: null
-}
+
 
 const scene = new THREE.Scene();
 game.scene=scene;
@@ -67,6 +55,12 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 container.appendChild(renderer.domElement);
 
 
+const controls = new Controls(camera,renderer.domElement);
+controls.dragToLook=true;
+controls.movementSpeed=1;
+controls.rollSpeed=0.0005;
+// controls.domElement=renderer.domElement
+
 window.addEventListener('resize', onWindowResize, false);
 
 
@@ -86,6 +80,7 @@ function render(ts) {
     lastUpdate=ts;
     accumulatedDelta+=delta;
     // console.log("RENDER",delta,accumulatedDelta)
+    controls.update(delta)
     window.requestAnimationFrame(render);
     if (accumulatedDelta>TICK_SIZE){
         accumulatedDelta-=TICK_SIZE;
