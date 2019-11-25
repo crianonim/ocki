@@ -59,6 +59,8 @@ const controls = new Controls(camera,renderer.domElement);
 controls.dragToLook=true;
 controls.movementSpeed=1;
 controls.rollSpeed=0.0005;
+// KEYS are WASD QE RF arrows
+
 // controls.domElement=renderer.domElement
 
 window.addEventListener('resize', onWindowResize, false);
