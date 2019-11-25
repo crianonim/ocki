@@ -28,7 +28,7 @@ controls.keys = {
     RIGHT: 68,
     LEFT: 65,
     UP: 87,
-    DOWN: 83,
+    BOTTOM: 83,
 }
 controls.domElement = container;
 controls.mouseButtons = {
