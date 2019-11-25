@@ -89,7 +89,7 @@ function render(ts) {
     window.requestAnimationFrame(render);
     if (accumulatedDelta>TICK_SIZE){
         accumulatedDelta-=TICK_SIZE;
-        tick.tick(game);
+        // tick.tick(game);
     }
     if(game.selectedMesh){
         if (game.selectedMesh.material.opacity<.2){
